@@ -61,10 +61,11 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    padding: 30px; /* Keeps a little breathing room from the very edge */
+    padding: 30px;
     gap: 25px;
-    width: 100%; /* Forces full width */
-    max-width: none; /* REMOVED the limit that caused the side spaces */
+    width: 100%;
+    max-width: none;
+    margin: 0;
 }
 
 /* Scrollbar */
@@ -83,7 +84,7 @@ header {
 }
 
 h1 { margin: 0; color: var(--cyan); letter-spacing: 2px; text-shadow: 0 0 10px rgba(6, 182, 212, 0.4); }
-.subtitle { color: var(--text-muted); font-size: 0.9rem; }
+.subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
 
 .score-box {
     background: #0f172a;
@@ -123,23 +124,22 @@ h1 { margin: 0; color: var(--cyan); letter-spacing: 2px; text-shadow: 0 0 10px r
 .tab-btn.active { 
     border-color: var(--cyan); 
     color: #000; 
-    background: var(--cyan); 
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); 
+    background: var(--cyan);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
 }
 
 /* --- MODULES & CARDS --- */
-.module { display: none; }
-.module.active { display: block; animation: popIn 0.3s ease; }
+.module { display: none; animation: popIn 0.3s ease; }
+.module.active { display: block; }
 
 .card {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 30px;
     margin-bottom: 25px;
     position: relative;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    /* Card will now stretch to fill the full width container */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 /* Step Badges */
@@ -147,16 +147,17 @@ h1 { margin: 0; color: var(--cyan); letter-spacing: 2px; text-shadow: 0 0 10px r
     display: inline-block;
     background: #334155;
     color: #fff;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     padding: 4px 8px;
     border-radius: 4px;
     margin-bottom: 10px;
-    letter-spacing: 1px;
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
-h2 { margin-top: 5px; color: var(--cyan); font-size: 1.2rem; }
-p { color: var(--text-muted); line-height: 1.6; font-size: 1rem; }
+h2 { margin-top: 5px; color: var(--cyan); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; }
+h3 { color: var(--text); font-size: 1rem; margin-bottom: 10px; }
+p { color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin-bottom: 20px; }
 
 /* Interactive Box */
 .interactive-box {
@@ -170,13 +171,13 @@ p { color: var(--text-muted); line-height: 1.6; font-size: 1rem; }
 /* --- FORM ELEMENTS --- */
 input[type="text"], input[type="number"] {
     width: 100%;
-    padding: 15px;
+    padding: 18px;
     background: #020617;
     border: 2px solid #334155;
     color: #fff;
     font-family: 'Courier New', monospace;
-    font-size: 1.1rem;
-    border-radius: 6px;
+    font-size: 1.2rem;
+    border-radius: 8px;
     transition: 0.3s;
     margin-bottom: 10px;
 }
@@ -187,10 +188,12 @@ input:focus { outline: none; border-color: var(--cyan); }
 input.success {
     border-color: var(--green) !important;
     background: rgba(34, 197, 94, 0.1) !important;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
 }
+
 input.error {
     border-color: var(--red) !important;
-    animation: shake 0.4s;
+    animation: shake 0.4s ease-in-out;
 }
 
 /* Input Labels */
@@ -213,24 +216,37 @@ input.error {
 
 /* --- BUTTONS --- */
 button.action-btn {
+    background: transparent;
+    color: var(--cyan);
+    border: 2px solid var(--cyan);
     padding: 12px 25px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 6px;
     transition: 0.3s;
     text-transform: uppercase;
-    font-family: inherit;
+    font-family: 'Courier New', monospace;
 }
 
-/* Primary Button (Cyan) */
+button.action-btn:hover {
+    background: var(--cyan);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+}
+
+/* Primary Button Style (Filled) */
 button.primary {
-    background: transparent;
-    color: var(--cyan);
+    background: transparent; 
+    color: var(--cyan); 
     border: 2px solid var(--cyan);
 }
-button.primary:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
+button.primary:hover {
+    background: var(--cyan);
+    color: #000;
+}
 
-/* Secondary Button (Grey) */
+/* Secondary Button */
 button.secondary {
     background: transparent;
     color: #94a3b8;
@@ -266,8 +282,8 @@ input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 5px; c
 .cipher-wheel-display {
     display: flex; flex-direction: column; gap: 5px;
     background: #020617; padding: 15px; border: 1px dashed #334155;
-    overflow-x: auto; font-family: 'Courier New', monospace;
-    margin-top: 15px; border-radius: 8px;
+    overflow-x: auto; font-family: 'Courier New', monospace; margin-top: 15px;
+    border-radius: 8px;
 }
 .wheel-row { display: flex; }
 .wheel-cell {
@@ -279,31 +295,33 @@ input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 5px; c
 
 /* --- DATABASE --- */
 .hash-output {
-    font-family: 'Courier New', monospace; font-size: 1.5rem; color: var(--gold);
+    font-family: 'Courier New', monospace; font-size: 1.8rem; color: var(--gold);
+    background: rgba(0,0,0,0.5); padding: 20px; border: 1px dashed var(--gold);
+    text-align: center; margin-top: 10px; border-radius: 8px; letter-spacing: 2px;
 }
 .database-container {
-    height: 200px; overflow-y: auto; background: #020617;
-    border: 1px solid #334155; margin-top: 15px;
-    font-family: 'Courier New', monospace; border-radius: 6px;
+    margin-top: 15px; border: 1px solid var(--border); background: #020617;
+    height: 250px; overflow-y: auto; font-family: 'Courier New', monospace; border-radius: 8px;
 }
 .db-header {
-    background: #1e293b; padding: 10px; display: flex;
-    justify-content: space-between; color: var(--cyan);
-    font-weight: bold; position: sticky; top: 0;
+    background: #1e293b; padding: 12px; color: var(--cyan); font-weight: bold;
+    display: flex; justify-content: space-between; border-bottom: 1px solid var(--border);
 }
 .db-row {
-    display: flex; justify-content: space-between; padding: 8px 10px;
-    border-bottom: 1px solid #334155; color: #94a3b8; font-size: 0.9rem;
+    display: flex; justify-content: space-between; padding: 10px 12px;
+    border-bottom: 1px solid #1e293b; color: var(--text-muted); font-size: 0.9rem;
 }
 .db-row:hover { background: rgba(6, 182, 212, 0.05); color: var(--text); }
+.db-row:nth-child(even) { background: rgba(255,255,255,0.02); }
 .db-hash { color: var(--gold); }
 
 /* --- MISSION SPECIFICS --- */
 .ctf-card { border-left: 4px solid var(--red); }
 .ctf-card.solved { border-color: var(--green); opacity: 0.7; pointer-events: none; }
 .ctf-card.solved::after {
-    content: "ACCESS GRANTED"; position: absolute; top: 20px; right: 20px;
-    color: var(--green); border: 1px solid var(--green); padding: 5px 10px; font-weight: bold;
+    content: "ACCESS GRANTED"; position: absolute; top: 10px; right: 10px;
+    color: var(--green); font-weight: bold; border: 1px solid var(--green); padding: 2px 8px;
+    background: rgba(34, 197, 94, 0.1);
 }
 .intel-box {
     background: #020617; border: 1px solid #334155; padding: 15px;
@@ -314,30 +332,72 @@ input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 5px; c
     padding: 15px; border-radius: 6px; border-left: 3px solid var(--cyan);
 }
 
-/* --- CHAT WIDGET --- */
+/* --- CHAT WIDGET (STYLES UPDATED) --- */
 .chat-toggle-btn {
-    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-    background: var(--cyan); color: #000; border: none; border-radius: 50%;
-    font-size: 30px; cursor: pointer; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
-    z-index: 2000; transition: transform 0.2s; display: flex; align-items: center; justify-content: center;
+    position: fixed; bottom: 30px; right: 30px;
+    width: 65px; height: 65px;
+    background: var(--cyan); color: #000;
+    border: none; border-radius: 50%;
+    font-size: 30px; cursor: pointer;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    z-index: 2000; transition: transform 0.2s, background 0.2s;
+    display: flex; align-items: center; justify-content: center;
 }
 .chat-toggle-btn:hover { transform: scale(1.1); background: #fff; }
 
 .chat-widget {
-    position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px;
-    background: #0f172a; border: 2px solid var(--cyan); border-radius: 12px;
-    display: flex; flex-direction: column; z-index: 2000; overflow: hidden;
-    transition: 0.3s; opacity: 0; transform: scale(0); pointer-events: none; transform-origin: bottom right;
+    position: fixed; bottom: 110px; right: 30px;
+    width: 360px; height: 550px;
+    background: #0f172a; border: 2px solid var(--cyan);
+    border-radius: 16px; display: flex; flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 2000; overflow: hidden;
+    
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom right;
+    opacity: 0; transform: scale(0); pointer-events: none;
 }
 .chat-widget.open { opacity: 1; transform: scale(1); pointer-events: all; }
 
-.ai-header { padding: 15px; background: #1e293b; display: flex; justify-content: space-between; align-items: center; }
-.ai-avatar { width: 35px; height: 35px; background: var(--cyan); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-.chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.2); }
-.msg { padding: 10px 15px; border-radius: 10px; font-size: 0.9rem; max-width: 85%; }
-.msg.ai { background: rgba(6, 182, 212, 0.15); color: var(--cyan); align-self: flex-start; border-bottom-left-radius: 2px; }
-.msg.user { background: #334155; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+.ai-header { padding: 15px; background: #1e293b; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.ai-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--cyan); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 0 10px var(--cyan); }
+
+.chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.2); }
+.msg { padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; max-width: 85%; line-height: 1.5; }
+.msg.ai { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: var(--cyan); align-self: flex-start; border-bottom-left-radius: 2px; }
+.msg.user { background: #334155; color: white; align-self: flex-end; text-align: right; border-bottom-right-radius: 2px; }
+
+/* 1. FORCE THE INPUT TO HAVE CYAN BORDER */
+#chatInput {
+    border: 2px solid var(--cyan) !important;
+    background: #020617;
+    border-radius: 6px;
+    color: #fff;
+    padding: 12px;
+    margin: 0;
+}
+
+/* 2. FORCE THE SEND BUTTON TO BE WHITE SQUARE */
+.chat-widget .action-btn {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 6px;
+    width: 50px;
+    padding: 0 !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.chat-widget .action-btn:hover {
+    background-color: #e2e8f0 !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
 
 /* --- UTILITY --- */
 .hidden { display: none; }
-.confetti { position: fixed; width: 8px; height: 8px; background: var(--cyan); z-index: 9999; }
+.confetti { position: fixed; width: 10px; height: 10px; background: var(--cyan); z-index: 1000; }
