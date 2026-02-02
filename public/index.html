@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scytale Quest: Spy Academy</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <main class="main-content">
+            
+            <header>
+                <div>
+                    <h1>SCYTALE QUEST</h1>
+                    <div class="subtitle">v3.0 | EDUCATIONAL CRYPTO TERMINAL</div>
+                </div>
+                <div class="score-box">SCORE: <span id="scoreVal">0</span> / 100</div>
+            </header>
+
+            <nav class="nav-tabs">
+                <button class="tab-btn active" onclick="switchTab('mod1')">MODULE 1: CAESAR</button>
+                <button class="tab-btn" onclick="switchTab('mod2')">MODULE 2: HASHING</button>
+                <button class="tab-btn" onclick="switchTab('mod3')">CTF MISSIONS</button>
+            </nav>
+
+            <div id="mod1" class="module active">
+                
+                <div class="card">
+                    <span class="step-badge">STEP 1: THE KEY</span>
+                    <h2>// ROTATION CIPHER</h2>
+                    <p>This cipher hides messages by swapping letters down the alphabet. The <strong>Shift Key</strong> is the number of steps we move.</p>
+                    <p style="background:rgba(6,182,212,0.1); padding:10px; border-radius:4px; border-left:3px solid var(--cyan);">
+                        <strong>Example:</strong> If the Key is <strong>1</strong>, "A" becomes "B". <br>
+                        If the Key is <strong>3</strong>, "A" becomes "D".
+                    </p>
+                    
+                    <div class="interactive-box">
+                        <label style="color:var(--cyan); font-weight:bold; display:block; margin-bottom:10px;">
+                            CURRENT SHIFT KEY: <span id="shiftVal" style="font-size:1.5rem; color:var(--gold);">3</span>
+                        </label>
+                        <input type="range" id="shiftSlider" min="0" max="25" value="3" oninput="handleSliderChange()">
+                        <p style="font-size:0.8rem; color:#94a3b8; margin-top:5px;">(Drag slider to change the swap rule)</p>
+                    </div>
+
+                    <div class="cipher-wheel-display" id="wheelDisplay"></div>
+                </div>
+
+                <div class="card">
+                    <span class="step-badge">STEP 2: TRANSLATOR</span>
+                    <h2>// TWO-WAY COMMUNICATOR</h2>
+                    <p>Use this tool to encrypt or decrypt messages.</p>
+                    
+                    <div style="display: grid; gap: 15px;">
+                        <div>
+                            <label class="input-label success">1. WRITE MESSAGE (PLAINTEXT)</label>
+                            <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:5px;">Encrypt</p>
+                            <input type="text" id="caesarPlain" placeholder="(e.g., HELLO)" onkeyup="updateFromPlain()" onfocus="setFocus('plain')">
+                        </div>
+                        
+                        <div style="text-align:center; color:var(--text-muted); font-weight:bold; font-size:1.1rem;">
+                            ⬇️ ENCRYPTS (HIDES) &nbsp;|&nbsp; DECRYPTS (REVEALS) ⬆️
+                        </div>
+
+                        <div>
+                            <label class="input-label danger">2. READ CODE (CIPHERTEXT)</label>
+                            <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:5px;">Decrypt</p>
+                            <input type="text" id="caesarCipher" placeholder="(e.g., KHOOR)" onkeyup="updateFromCipher()" onfocus="setFocus('cipher')">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--gold);">
+                    <span class="step-badge">STEP 3: PRACTICE</span>
+                    <h2>// MINI-DRILL</h2>
+                    <p>Decrypt this intercepted message: <strong style="color:var(--red); letter-spacing:2px; font-size:1.2rem; background:rgba(239,68,68,0.1); padding:2px 8px; border-radius:4px;">KHOOR ZRUOG</strong></p>
+                    
+                    <div style="margin-bottom:15px; font-size:0.9rem; color:var(--gold);">
+                        <strong>💡 INSTRUCTION:</strong> Set the Shift Key slider to <strong>3</strong>, then type words below.
+                    </div>
+                    
+                    <input type="text" id="drillInput" placeholder="Type decrypted message..." onkeyup="checkDrill()">
+                    <div id="drillFeedback" class="feedback-msg"></div>
+                </div>
+            </div>
+
+            <div id="mod2" class="module">
+                <div class="card">
+                    <span class="step-badge">CONCEPT</span>
+                    <h2>// DIGITAL FINGERPRINTS (HASHING)</h2>
+                    <p>A "Hash" is a unique ID for data. It's a one-way street: you can turn a password into a Hash, but you cannot turn a Hash back into a password.</p>
+                    <input type="text" id="hashInput" placeholder="Type your name here..." onkeyup="generateHash()">
+                    <div style="margin-top:20px; background:rgba(0,0,0,0.3); padding:15px; border-radius:8px; text-align:center;">
+                        <span style="color:var(--text-muted); font-size:0.8rem;">YOUR UNIQUE ID:</span>
+                        <div id="hashResult" class="hash-output">0000</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="step-badge">DATABASE</span>
+                    <h2>// THE "RAINBOW TABLE"</h2>
+                    <p>Since we can't un-scramble a hash, hackers cheat! They make a list of common words and their IDs to look them up later.</p>
+                    <div class="database-container">
+                        <div class="db-header">
+                            <span>FINGERPRINT (HASH)</span>
+                            <span>ORIGINAL TEXT</span>
+                        </div>
+                        <div id="rainbowList"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="step-badge">TOOL</span>
+                    <h2>// REVERSE LOOKUP</h2>
+                    <p>Copy a 4-character Hash from the table above and paste it here to find the original word.</p>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="lookupInput" placeholder="e.g. 7F3A" maxlength="4" style="margin:0;">
+                        <button class="action-btn primary" onclick="lookupHash()">SEARCH</button>
+                    </div>
+                    <div id="lookupResult" style="margin-top:15px; font-weight:bold; height:20px;"></div>
+                </div>
+            </div>
+
+            <div id="mod3" class="module">
+                <div class="card">
+                    <h2>// MISSION STATUS: ACTIVE</h2>
+                    <p>Use the tools from Module 1 and Module 2 to solve these challenges.</p>
+                </div>
+
+                <div class="card ctf-card" id="chall1">
+                    <h3>OBJ 1: DECRYPT COMMMUNICATION</h3>
+                    <div class="intel-box">
+                        <span style="color:var(--text-muted);">INTERCEPTED:</span> <strong style="color:var(--green);">FUBSWR_PDVWHU_2024</strong><br>
+                        <span style="color:var(--text-muted);">INTEL:</span> Standard Rotation. First word starts with 'C'.
+                    </div>
+                    <input type="text" id="flag1" placeholder="Enter the decrypted flag...">
+                    <div style="margin-top:15px; display:flex; justify-content:space-between;">
+                        <button class="action-btn primary" onclick="submitFlag(1)">SUBMIT ANSWER</button>
+                        <button class="action-btn secondary" onclick="toggleHint(1)">NEED A HINT?</button>
+                    </div>
+                    <p id="hint1" class="hint-box hidden">
+                        > <strong>HINT:</strong> Go to Module 1. Move the slider until the letters 'F' turn into 'C'.
+                    </p>
+                </div>
+
+                <div class="card ctf-card" id="chall2">
+                    <h3>OBJ 2: DATABASE LEAK</h3>
+                    <div class="intel-box">
+                        <span style="color:var(--text-muted);">TARGET HASH:</span> <strong style="color:var(--green);">7F3A</strong><br>
+                        <span style="color:var(--text-muted);">INTEL:</span> This hash was found in our Rainbow Table database.
+                    </div>
+                    <input type="text" id="flag2" placeholder="Enter the original password...">
+                    <div style="margin-top:15px; display:flex; justify-content:space-between;">
+                        <button class="action-btn primary" onclick="submitFlag(2)">SUBMIT ANSWER</button>
+                        <button class="action-btn secondary" onclick="toggleHint(2)">NEED A HINT?</button>
+                    </div>
+                    <p id="hint2" class="hint-box hidden">
+                        > <strong>HINT:</strong> Go to Module 2. Use the "Reverse Lookup" tool at the bottom to search for "7F3A".
+                    </p>
+                </div>
+
+                <div style="margin-top: 40px; text-align: center; border-top: 1px solid #334155; padding-top: 20px;">
+                    <p style="font-size: 0.8rem; color: #ef4444; margin-bottom: 10px;">⚠ DANGER ZONE</p>
+                    <button onclick="resetGame()" class="reset-btn">
+                        [ RESET SYSTEM PROGRESS ]
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="chatWidget" class="chat-widget">
+        <div class="ai-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="ai-avatar">AI</div>
+                <div style="font-size:0.9rem;">
+                    <span style="color:var(--cyan); font-weight:bold;">CYBER_MENTOR</span><br>
+                    <span style="color:#22c55e; font-size:0.7rem;">● ONLINE</span>
+                </div>
+            </div>
+            <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.2rem;">✕</button>
+        </div>
+        <div id="chatBox" class="chat-box">
+            <div class="msg ai">Greetings! I am your Cyber Mentor. If you get stuck on a mission, just ask!</div>
+        </div>
+        <div style="padding:15px; border-top:1px solid var(--border); background:#0b1120;">
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="chatInput" placeholder="Type here.." onkeypress="if(event.key==='Enter') sendChat()">
+                <button class="action-btn" onclick="sendChat()">></button>
+            </div>
+        </div>
+    </div>
+
+    <button class="chat-toggle-btn" onclick="toggleChat()">🤖</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
